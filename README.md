@@ -140,6 +140,6 @@ allprojects {
 }
 ```
 
-Set <code>strictMode:true</code> to allow only dependency notation <b>without</b> version.
+* Set <code>strictMode:true</code> to allow only dependency notation <b>without</b> version.
 (Error occurs when using dependency notation with version or not declared in <code>shared-settings.gradle</code>.)
-Set <code>strictMode:false</code>(or without parameter) to disable check.
+* Set <code>strictMode:false</code>(or without parameter) to disable check.
