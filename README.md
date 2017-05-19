@@ -1,5 +1,5 @@
 # Dependency Version Resolver
-resolves dependency versions of multiple project with shared setting.
+resolves dependency versions of multiple project.
 
 ## Features
 ### 1. Using same library versions in multiple project.
