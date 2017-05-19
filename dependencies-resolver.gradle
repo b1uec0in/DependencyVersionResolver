@@ -61,6 +61,29 @@ ext.resolveDependencyVersion = { Map mapParam ->
     }
 }
 
+// simple version
+// ex)
+// allprojects { // or buildscript
+//       resolveDependencyVersion configurations
+// }
+//
+//ext.resolveDependencyVersion = { configurations ->
+//    configurations.all {
+//        resolutionStrategy {
+//            eachDependency { DependencyResolveDetails details ->
+//                def dependencyNotation = details.target.toString()
+//                for (i in rootProject.ext.libraries) {
+//                    if (i.startsWith(dependencyNotation)) {
+//                        def version = i.split(":").last()
+//                        details.useVersion version
+//                        break
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
+
 ext.compileDefault = {DependencyHandler dependencyHandler ->
     compileGroup defaultGroup, dependencyHandler
 }
