@@ -3,7 +3,7 @@ resolves dependency versions of multiple project.
 
 ## Features
 ### 1. Using same library versions in multiple project.
-Declare full dependency notatation once in <code>shared-settings.gradle</code> and just remove version.
+Declare full dependency notatation once in <code>shared-settings.gradle</code> and just remove versions in each project dependencies.
 
 * file: /shared-settings.gradle
 ```diff
