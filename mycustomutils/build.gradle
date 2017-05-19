@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion shared.compileSdkVersion
+    buildToolsVersion shared.buildToolVersion
+
+    defaultConfig {
+        minSdkVersion shared.minSdkVersion
+        targetSdkVersion shared.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compileDefault dependencies
+
+    compile 'com.squareup.retrofit2:retrofit'
+    compile 'com.squareup.retrofit2:converter-gson'
+    compile 'com.squareup.okhttp3:okhttp'
+}

@@ -1,0 +1,31 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion shared.compileSdkVersion
+    buildToolsVersion shared.buildToolVersion
+
+    defaultConfig {
+        applicationId "com.github.b1uec0in.dependencyversionresolver"
+        minSdkVersion shared.minSdkVersion
+        targetSdkVersion shared.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+
+dependencies {
+    compileDefault dependencies
+
+    compile 'com.android.support:design'
+    compile 'com.android.support.constraint:constraint-layout'
+
+    compile project(':mycustomwidget')
+}

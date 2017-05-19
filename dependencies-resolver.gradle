@@ -1,0 +1,71 @@
+//
+// Dependency Version Resolver v1.0 (2017-05-19)
+//
+// https://github.com/b1uecoin/DependencyVersionResolver
+// created by Bae Yong-Ju
+//
+
+ext.resolveDependencyVersion = { Map mapParam ->
+    boolean strictMode = mapParam.strictMode;
+
+    Project project = mapParam.project
+
+    ScriptHandler script = mapParam.buildscript
+    if (project) script = project.buildscript
+
+    DependencyHandler dependencyHandler = mapParam.dependencies ?: project?.dependencies ?: script?.dependencies
+
+    dependencyHandler.metaClass.invokeMethod = { String name, Object... args ->
+        def method = delegate.metaClass.getMetaMethod(name, *args)
+        if (!method) {
+            if (args.length > 0) {
+                def dependencyNotation = args[0].toString();
+                boolean isExternalModule = false;
+                def parts = dependencyNotation.split(":");
+                if (!dependencyNotation.startsWith('project ') && !dependencyNotation.startsWith(':') && !dependencyNotation.startsWith('[') && (parts.length == 2 || parts.length == 3)) {
+                    isExternalModule = true;
+                }
+
+                if (isExternalModule) {
+                    boolean found = false;
+                    for (i in ext.libraries) {
+                        if (i.startsWith(dependencyNotation + ':')) {
+                            args[0] = i
+                            found = true;
+                            break
+                        }
+                    }
+
+                    if (strictMode && !found) {
+
+                        def location = ""
+                        if (project) {
+                            location = "(project: $project.name)"
+                        } else if (script) {
+                            location = "($script.sourceFile.parentFile.name/$script.sourceFile.name)"
+                        }
+
+                        if (parts.length == 3) {
+                            throw new GradleException("'$dependencyNotation' $location dependency is used with version.\nPlease use '${parts[0]}:${parts[1]}' (without version).")
+                        } else {
+                            throw new GradleException("'$dependencyNotation' $location dependency is not found in ext.libraries")
+                        }
+                    }
+                }
+            }
+        }
+
+        def result = (method ? method.invoke(delegate, *args) : delegate.metaClass.invokeMissingMethod(delegate, name, args))
+
+        result
+    }
+}
+
+ext.compileDefault = {DependencyHandler dependencyHandler ->
+    compileGroup defaultGroup, dependencyHandler
+}
+
+ext.compileGroup = {Closure dependencyGroup, DependencyHandler dependencyHandler ->
+    dependencyGroup.delegate = dependencyHandler
+    dependencyGroup()
+}
