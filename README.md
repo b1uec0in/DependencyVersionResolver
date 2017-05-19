@@ -145,3 +145,6 @@ allprojects {
 * Set <code>strictMode:false</code>(or without parameter) to disable check.
 
 3. modify <code>shared-settings.gradle</code>.
+
+## Sample
+See this project sources. (https://github.com/b1uec0in/DependencyVersionResolver)
