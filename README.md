@@ -109,7 +109,7 @@ android {
 ```
   
 ## Usage:  
-1. copy <code>dependencies-resolver.gradle</code>, <code>shared-settings.gradle</code> files to project root directory.
+1. copy <code>dependencies-resolver.gradle</code>, <code>shared-settings.gradle</code> files to your project root directory.
 2. modify <code>build.gradle</code> file in project root directory.
 
 ```diff
@@ -143,3 +143,5 @@ allprojects {
 * Set <code>strictMode:true</code> to allow only dependency notation <b>without</b> version.
 (Error occurs when using dependency notation with version or not declared in <code>shared-settings.gradle</code>.)
 * Set <code>strictMode:false</code>(or without parameter) to disable check.
+
+3. modify <code>shared-settings.gradle</code>.
