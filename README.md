@@ -140,4 +140,4 @@ allprojects {
 }
 ```
 
-Set <code>strictMode:true</code> if you want to find dependency notation that is not declared in <code>shared-settings.gradle</code>. 
+Set <code>strictMode:true</code> if you want to find dependency notation not declared in <code>shared-settings.gradle</code>. 
