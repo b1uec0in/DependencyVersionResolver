@@ -61,7 +61,7 @@ ext.resolveDependencyVersion = { Map mapParam ->
     }
 }
 
-// simple version
+// simple version (can't implement strictMode)
 // ex)
 // allprojects { // or buildscript
 //       resolveDependencyVersion configurations
