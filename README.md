@@ -114,7 +114,7 @@ android {
 
 ```diff
 buildscript {
-+    apply from: "dependencies-resolver.gradle"</font>
++    apply from: "dependencies-resolver.gradle"
 +    apply from: "shared-settings.gradle"
 +    resolveDependencyVersion buildscript:buildscript, strictMode:true
 
@@ -140,3 +140,4 @@ allprojects {
 }
 ```
 
+Set <code>strictMode:true</code> if you want to find dependency notation that is not declared in <code>shared-settings.gradle</code>. 
