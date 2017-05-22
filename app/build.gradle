@@ -22,7 +22,7 @@ android {
 
 
 dependencies {
-    compileDefault dependencies
+    compileDefault project
 
     compile 'com.android.support:design'
     compile 'com.android.support.constraint:constraint-layout'

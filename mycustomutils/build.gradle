@@ -22,7 +22,7 @@ android {
 }
 
 dependencies {
-    compileDefault dependencies
+    compileDefault project
 
     compile 'com.squareup.retrofit2:retrofit'
     compile 'com.squareup.retrofit2:converter-gson'

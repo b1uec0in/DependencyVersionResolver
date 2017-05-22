@@ -1,10 +1,15 @@
 //
-// Dependency Version Resolver v1.0 (2017-05-19)
+// Dependency Version Resolver v1.1 (2017-05-22)
 //
 // https://github.com/b1uecoin/DependencyVersionResolver
 // created by Bae Yong-Ju
 //
 
+// resolves dependency version by using 'rootProject.ext.libraries' list.
+// project or buildscript must be specified.
+// @param @optional project
+// @param @optional buildscript
+// @param @optional strictMode (default:false)
 ext.resolveDependencyVersion = { Map mapParam ->
     boolean strictMode = mapParam.strictMode;
 
@@ -84,11 +89,15 @@ ext.resolveDependencyVersion = { Map mapParam ->
 //    }
 //}
 
-ext.compileDefault = {DependencyHandler dependencyHandler ->
-    compileGroup defaultGroup, dependencyHandler
+// execute dependency group closure
+// @param dependencyGroup dependency closure
+// @param project
+ext.compileGroup = { Project project, Closure dependencyGroup ->
+    dependencyGroup.delegate = project.dependencies
+    dependencyGroup(project)
 }
 
-ext.compileGroup = {Closure dependencyGroup, DependencyHandler dependencyHandler ->
-    dependencyGroup.delegate = dependencyHandler
-    dependencyGroup()
+// execute 'rootProject.ext.defaultGroup' dependency group closure.
+ext.compileDefault = { Project project ->
+    compileGroup project, defaultGroup
 }
