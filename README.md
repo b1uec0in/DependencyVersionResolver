@@ -46,8 +46,8 @@ Group multiple dependencies to single notation.
 
 * file: /shared-settings.gradle
 ```gradle
-ext.defaultGroup = {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+ext.defaultGroup = {project->
+    compile project.fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -68,7 +68,7 @@ dependencies {
 -    compile 'com.android.support:appcompat-v7'
 -    testCompile 'junit:junit'
 
-+    compileDefault dependencies
++    compileDefault project
 
     ...
 }
