@@ -1,5 +1,5 @@
 //
-// Dependency Version Resolver v1.1 (2017-05-22)
+// Dependency Version Resolver v1.2 (2017-06-15)
 //
 // https://github.com/b1uecoin/DependencyVersionResolver
 // created by Bae Yong-Ju
@@ -89,15 +89,15 @@ ext.resolveDependencyVersion = { Map mapParam ->
 //    }
 //}
 
-// execute dependency group closure
-// @param dependencyGroup dependency closure
-// @param project
+/// execute dependency group closure
+/// @param dependencyGroup dependency closure
+/// @param project
 ext.compileGroup = { Project project, Closure dependencyGroup ->
     dependencyGroup.delegate = project.dependencies
     dependencyGroup(project)
 }
 
-// execute 'rootProject.ext.defaultGroup' dependency group closure.
+/// execute 'rootProject.ext.defaultGroup' dependency group closure.
 ext.compileDefault = { Project project ->
     compileGroup project, defaultGroup
 }

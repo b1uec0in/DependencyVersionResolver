@@ -1,15 +1,64 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
-buildscript {
-    apply from: "dependencies-resolver.gradle"
-    apply from: "shared-settings.gradle"
-    resolveDependencyVersion buildscript:buildscript, strictMode:true
+// sdk versions
+ext.shared = [
+        buildToolVersion : "25.0.2",
+        compileSdkVersion: 25,
+        minSdkVersion    : 15,
+        targetSdkVersion : 25,
+]
 
+// library versions
+def versions = [
+        support : "25.3.1",
+        retrofit: "2.1.0",
+        okhttp  : "3.4.1",
+]
+ext.libraries = [
+        "com.android.support:appcompat-v7:$versions.support",
+        "com.android.support:support-v4:$versions.support",
+        "com.android.support:recyclerview-v7:$versions.support",
+        "com.android.support:design:$versions.support",
+        "com.android.support:customtabs:$versions.support",
+        "com.android.support:cardview-v7:$versions.support",
+        "com.android.support:preference-v7:$versions.support",
+
+        'com.android.support.constraint:constraint-layout:1.0.2',
+
+        "com.squareup.retrofit2:retrofit:$versions.retrofit",
+        "com.squareup.retrofit2:converter-gson:$versions.retrofit",
+        "com.squareup.okhttp3:okhttp:$versions.okhttp",
+        "com.squareup.okhttp3:okhttp-urlconnection:$versions.okhttp",
+        "com.squareup.okhttp3:logging-interceptor:$versions.okhttp",
+
+        // test
+        'junit:junit:4.12',
+        'com.android.support.test.espresso:espresso-core:2.2.2',
+]
+
+// default dependencies
+ext.defaultGroup = { project ->
+    compile project.fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7'
+    testCompile 'junit:junit'
+}
+
+// dependency resolver initializing
+apply from: "dependencies-resolver.gradle"
+subprojects {
+    resolveDependencyVersion project:project, strictMode:false
+}
+
+buildscript {
     repositories {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle'
+        classpath 'com.android.tools.build:gradle:2.3.2'
+        classpath 'com.google.gms:google-services:+'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -17,8 +66,6 @@ buildscript {
 }
 
 allprojects {
-    resolveDependencyVersion project:project, strictMode:true
-
     repositories {
         jcenter()
     }

@@ -3,9 +3,9 @@ resolves dependency versions of multiple project.
 
 ## Features
 ### 1. Using same library versions in multiple project.
-Declare full dependency notatation once in <code>shared-settings.gradle</code> and just remove versions in each project dependencies.
+Declare full dependency notation once in **root project** <code>build.gradle</code> and just remove versions in subproject.
 
-* file: /shared-settings.gradle
+* file: /build.gradle
 ```diff
 def versions = [
         support:"25.3.1",
@@ -44,7 +44,7 @@ dependencies {
 ### 2. Using default dependency group.
 Group multiple dependencies to single notation.
 
-* file: /shared-settings.gradle
+* file: /build.gradle
 ```gradle
 ext.defaultGroup = {project->
     compile project.fileTree(include: ['*.jar'], dir: 'libs')
@@ -77,7 +77,7 @@ dependencies {
 
 ### 3. Using shared SDK version settings.
 
-* file: /shared-settings.gradle
+* file: /build.gradle
   ```gradle
   ext.shared = [
           buildToolVersion : "25.0.2",
@@ -109,42 +109,55 @@ android {
 ```
   
 ## Usage:  
-1. copy <code>dependencies-resolver.gradle</code>, <code>shared-settings.gradle</code> files to your project root directory.
-2. modify <code>build.gradle</code> file in project root directory.
+1. copy <code>dependencies-resolver.gradle</code> file to your project root directory.
+1. open <code>build.gradle</code> file in project root directory.
+1. copy and edit (see above sample code of each feature)
+1. add <code>dependency resolver initializing</code> codes. (see below)
+<pre>// sdk versions
+ext.shared = [
+    buildToolVersion : "25.0.2",
+    compileSdkVersion: 25,
+    minSdkVersion    : 15,
+    targetSdkVersion : 25,
+]
 
-```diff
+// library versions
+def versions = [
+    support:"25.3.1",
+]
+ext.libraries = [
+    "com.android.support:appcompat-v7:$versions.support",
+    "com.android.support:support-v4:$versions.support",
+    <span style='color:#ff3456'>// TODO: Add dependencies (with version) used by any sub project.</span>
+]
+
+// default dependencies
+ext.defaultGroup = { project ->
+    compile project.fileTree(include: ['*.jar'], dir: 'libs')
+    <span style='color:#ff3456'>// TODO: Add dependencies (without version) used by all sub project.</span>
+}
+
+// dependency resolver initializing
+<span style='color:#3456cd'>
+apply from: "dependencies-resolver.gradle"
+subprojects {
+    resolveDependencyVersion project:project, strictMode:false
+}
+</span>
+
 buildscript {
-+    apply from: "dependencies-resolver.gradle"
-+    apply from: "shared-settings.gradle"
-+    resolveDependencyVersion buildscript:buildscript, strictMode:true
-
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
--        classpath 'com.android.tools.build:gradle:2.3.2'
-+        classpath 'com.android.tools.build:gradle'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
+    ...
 }
 
 allprojects {
-+    resolveDependencyVersion project:project, strictMode:true
-
-    repositories {
-        jcenter()
-    }
+    ...
 }
-```
+...
+</pre>
 
 * Set <code>strictMode:true</code> to allow only dependency notation <b>without</b> version.
 (Error occurs when using dependency notation with version or not declared in <code>shared-settings.gradle</code>.)
 * Set <code>strictMode:false</code>(or without parameter) to disable check.
-
-3. modify <code>shared-settings.gradle</code>.
 
 ## Sample
 See this project sources. (https://github.com/b1uec0in/DependencyVersionResolver)
