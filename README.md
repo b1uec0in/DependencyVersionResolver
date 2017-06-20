@@ -113,7 +113,8 @@ android {
 1. open <code>build.gradle</code> file in project root directory.
 1. copy and edit (see above sample code of each feature)
 1. add <code>dependency resolver initializing</code> codes. (see below)
-<pre>// sdk versions
+```diff
+// sdk versions
 ext.shared = [
     buildToolVersion : "25.0.2",
     compileSdkVersion: 25,
@@ -128,22 +129,21 @@ def versions = [
 ext.libraries = [
     "com.android.support:appcompat-v7:$versions.support",
     "com.android.support:support-v4:$versions.support",
-    <span style='color:#ff3456'>// TODO: Add dependencies (with version) used by any sub project.</span>
+    // TODO: Add dependencies (with version) used by any sub project.
 ]
 
 // default dependencies
 ext.defaultGroup = { project ->
     compile project.fileTree(include: ['*.jar'], dir: 'libs')
-    <span style='color:#ff3456'>// TODO: Add dependencies (without version) used by all sub project.</span>
+    // TODO: Add dependencies (without version) used by all sub project.
 }
 
 // dependency resolver initializing
-<span style='color:#3456cd'>
-apply from: "dependencies-resolver.gradle"
-subprojects {
-    resolveDependencyVersion project:project, strictMode:false
-}
-</span>
++ apply from: "dependencies-resolver.gradle"
++ subprojects {
++    resolveDependencyVersion project:project, strictMode:false
++ }
+
 
 buildscript {
     ...
@@ -153,7 +153,7 @@ allprojects {
     ...
 }
 ...
-</pre>
+```
 
 * Set <code>strictMode:true</code> to allow only dependency notation <b>without</b> version.
 (Error occurs when using dependency notation with version or not declared in <code>shared-settings.gradle</code>.)
